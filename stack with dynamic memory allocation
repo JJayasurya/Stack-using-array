@@ -1,0 +1,128 @@
+//Implementation of stack with dynamic memory allocation 
+// stack with pointer
+
+
+
+#include <stdio.h>
+#include <stdlib.h>  // malloc and realloc libraries
+
+
+int *stack;
+int Maxsize=1;
+int top = -1;
+
+int isfull()                                    // function to check wheather a stack is full or not
+{
+   if(top==Maxsize)
+     return 1;
+   else
+     return 0;
+}
+
+int isempty()                                    //function to check wheather a stack is empty or not
+{
+   if(top==-1)
+     return 1;
+   else 
+    return 0;
+}
+
+int peek()                                       // return the top element in a stack
+{  
+   printf("\n top elements in stack is %d",stack[top]);
+   return stack[top];
+}
+
+int dub()                                        // function to double the size 
+{ 
+  Maxsize=Maxsize*2;
+  stack=realloc(stack,Maxsize*sizeof(int));
+  if (stack==NULL)
+  {
+    printf("\nMemory is in sufficient");
+    exit(0);
+  }
+}
+
+int push(int data)                               // insert an element
+{
+    if(isfull())
+    {
+      dub();
+    }
+    top =top+1;
+    stack[top]=data;
+    
+}
+
+int pop(){                                     // Delete an element
+    int data;
+    if(!isempty())
+    {
+     data=stack[top];
+     top= top-1;
+     return data;
+    }else{
+        printf("\nstack is empty");
+    }
+}
+
+int main()
+{
+ int ch;
+ int pu;
+ stack=(int*)malloc(Maxsize*sizeof(int));
+ 
+ label : 
+  {
+ printf("\nstack operation \n 1.push \n 2.pop \n 3.peek \n 4. display and exit \n");
+ printf("\n\a select an option\n");
+ scanf("%d",&ch);
+ switch(ch)
+ {
+  int pu;                                // user input for element insertion
+  case 1:
+
+    
+     printf("enter an elmenet to push");
+     scanf("%d",&pu);
+     push(pu);
+     goto label;
+     //break;
+  case 2:
+     pop();
+     printf("an element is poped");
+     goto label;
+  case 3:
+     peek();
+     goto label;
+  case 4:
+     printf("\n stack data \n");
+
+     while(!isempty())
+     {
+     int data = pop();
+     printf("%d\n",data);
+     }
+    goto label2;
+ 
+  default:
+     printf("invalid input");
+     goto label;
+} 
+  
+
+ }
+ label2:
+{if (isempty())
+{ printf("\a now the stack is empty");
+}
+else {
+printf("the stack is not empty\n");
+}
+free(stack);                                           // free the relloc memeory from the heap segment 
+stack==NULL;
+}
+
+return 0;
+}
